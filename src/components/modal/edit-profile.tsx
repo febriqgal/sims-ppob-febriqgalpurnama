@@ -1,21 +1,60 @@
-import React from "react";
+"use client";
+import { useGetProfileQuery } from "@/redux/feature/membership/profile/profileSlice";
+import { Profile } from "@/types/profile";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Input,
   Avatar,
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  useDisclosure,
 } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
 import EmailIcon from "../icons/email";
 import PersonIcon from "../icons/person";
+import { SyntheticEvent, useState } from "react";
+import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import PhotoProfile from "../../../public/Profile Photo.png";
 export default function EditProfileModal() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { data: session }: any = useSession();
   const route = useRouter();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [firstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+
+  const resProfile = useGetProfileQuery(null);
+  const dataProfile: Profile = resProfile.data?.data;
+  const handleUpdateProfile = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        `https://take-home-test-api.nutech-integrasi.app/profile/update`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            first_name: `${firstName}`,
+            last_name: `${LastName}`,
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${session?.user?.token}`,
+          },
+        }
+      );
+      route.replace("/");
+
+      toast.success("Berhasil Update Profile");
+      const data = await res.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Button onPress={onOpen} className="w-full" color="primary">
@@ -26,15 +65,26 @@ export default function EditProfileModal() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Edit Profile
+                {`Edit Profile ${dataProfile?.first_name}`}
               </ModalHeader>
               <ModalBody className="items-center flex">
-                <form className="space-y-4 flex justify-center flex-col items-center w-[300px]">
-                  <Avatar color="primary" className="w-[100px] h-[100px] " />
-                  <h1 className="font-bold">Febriqgal Purnama</h1>{" "}
+                <form
+                  onSubmit={handleUpdateProfile}
+                  className="space-y-4 flex justify-center flex-col items-center w-[300px]"
+                >
+                  <Image
+                    src={PhotoProfile}
+                    alt="#"
+                    width={100}
+                    height={100}
+                    color="primary"
+                  />
+                  <h1 className="font-bold">
+                    {dataProfile.first_name + " " + dataProfile.last_name}
+                  </h1>
                   <Input
-                    defaultValue={"febriqgalp@gmail.com"}
                     disabled
+                    defaultValue={dataProfile.email}
                     labelPlacement="outside"
                     startContent={<EmailIcon className="h-6 fill-primary" />}
                     placeholder="Masukkan email"
@@ -43,8 +93,10 @@ export default function EditProfileModal() {
                     label="Email"
                   />
                   <Input
-                    defaultValue={"Febriqgal"}
-                    disabled
+                    onChange={(e: any) => {
+                      setFirstName(e.target.value);
+                    }}
+                    defaultValue={dataProfile.first_name}
                     labelPlacement="outside"
                     startContent={<PersonIcon className="h-6 fill-primary" />}
                     placeholder="Masukkan Nama Depan"
@@ -53,8 +105,10 @@ export default function EditProfileModal() {
                     label="Nama Depan"
                   />
                   <Input
-                    defaultValue={"Purnama"}
-                    disabled
+                    onChange={(e: any) => {
+                      setLastName(e.target.value);
+                    }}
+                    defaultValue={dataProfile.last_name}
                     labelPlacement="outside"
                     startContent={<PersonIcon className="h-6 fill-primary" />}
                     placeholder="Masukkan Nama Belakang"
@@ -62,16 +116,17 @@ export default function EditProfileModal() {
                     variant="faded"
                     label="Nama Belakang"
                   />
+                  <Button
+                    className="w-full"
+                    type="submit"
+                    color="primary"
+                    onPress={onClose}
+                  >
+                    Simpan
+                  </Button>
                 </form>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Batal
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Simpan
-                </Button>
-              </ModalFooter>
+              <ModalFooter></ModalFooter>
             </>
           )}
         </ModalContent>

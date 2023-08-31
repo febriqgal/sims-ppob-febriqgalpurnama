@@ -7,7 +7,7 @@ export default function NavbarComponent() {
   const route = useRouter();
   const pathname = usePathname();
   const navigation = [
-    { title: "Top Up", href: "/top-up" },
+    { title: "Top Up", href: "/topup" },
     { title: "Transaction", href: "/transaction" },
     { title: "Akun", href: "/akun" },
   ];

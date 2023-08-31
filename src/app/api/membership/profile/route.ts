@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
-
+import { cookies } from "next/headers";
 export async function GET(req: Request) {
-  const res = await fetch(`${process.env.URL_API}/login`, {
-    method: "POST",
-    body: JSON.stringify({
-      email: "febriqgalp@gmail.com",
-      password: "11111111",
-    }),
+  const coo = cookies();
+  const token = coo.get("token");
+  console.log(token?.value);
+
+  const res = await fetch(`${process.env.URL_API}/profile`, {
+    method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
-      Authorization: `Bearer ${process.env.TOKEN}`,
+      Authorization: `Bearer ${token?.value}`,
     },
   });
   const data = await res.json();

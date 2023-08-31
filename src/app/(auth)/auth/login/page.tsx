@@ -4,15 +4,13 @@ import InvisibleIcon from "@/components/icons/invisible";
 import PasswordIcon from "@/components/icons/password";
 import VisibleIcon from "@/components/icons/visible";
 import { Button, Input } from "@nextui-org/react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { SyntheticEvent, useState } from "react";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import IllustrationLogin from "../../../../../public/Illustrasi Login.png";
 import Logo from "../../../../../public/Logo.png";
-import GoogleIcon from "../../../../../public/google.svg";
-import { signIn } from "next-auth/react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,16 +18,19 @@ export default function LoginPage() {
   const toggleVisibility = () => setIsVisible(!isVisible);
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
-    await signIn("credentials", {
-      email,
-      password,
-      callbackUrl: `${window.location.origin}/`,
-    });
+    if (email == "" && password == "") {
+      return toast.error("Email atau Password Tidak Boleh Kosong");
+    } else {
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: `${window.location.origin}/`,
+      });
+    }
   };
-  const route = useRouter();
+
   return (
     <main>
-      <Toaster position="bottom-left" reverseOrder={false} />
       <div className="flex justify-between items-center">
         <div className="w-1/2 h-screen flex flex-col items-center justify-center">
           <div className="w-[350px]">
@@ -86,17 +87,7 @@ export default function LoginPage() {
                 Masuk
               </Button>
             </form>
-            <Button
-              onPress={async () => {
-                await signIn("google", { callbackUrl: "/" });
-              }}
-              startContent={<Image className="h-4" src={GoogleIcon} alt="#" />}
-              variant="bordered"
-              color="primary"
-              className="w-full mt-1"
-            >
-              Masuk dengan Google
-            </Button>
+
             <h1 className="mt-4 text-xs text-center">
               Belum punya akun? Registrasi
               <span className="ml-1">
