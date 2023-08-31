@@ -2,7 +2,6 @@
 import { useGetProfileQuery } from "@/redux/feature/membership/profile/profileSlice";
 import { Profile } from "@/types/profile";
 import {
-  Avatar,
   Button,
   Input,
   Modal,
@@ -12,21 +11,18 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { SyntheticEvent, useState } from "react";
+import { toast } from "react-hot-toast";
+import PhotoProfile from "../../../public/Profile Photo.png";
 import EmailIcon from "../icons/email";
 import PersonIcon from "../icons/person";
-import { SyntheticEvent, useState } from "react";
-import { useSession } from "next-auth/react";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import PhotoProfile from "../../../public/Profile Photo.png";
 export default function EditProfileModal() {
   const { data: session }: any = useSession();
-  const route = useRouter();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [firstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
-
   const resProfile = useGetProfileQuery(null);
   const dataProfile: Profile = resProfile.data?.data;
   const handleUpdateProfile = async (e: SyntheticEvent) => {
@@ -46,11 +42,15 @@ export default function EditProfileModal() {
           },
         }
       );
-      route.replace("/");
 
-      toast.success("Berhasil Update Profile");
       const data = await res.json();
       console.log(data);
+      if (data.status == 0) {
+        toast.success("Berhasil Update Profile");
+      }
+      if (data.status == 102) {
+        toast.error("Field harus diisi");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -116,12 +116,7 @@ export default function EditProfileModal() {
                     variant="faded"
                     label="Nama Belakang"
                   />
-                  <Button
-                    className="w-full"
-                    type="submit"
-                    color="primary"
-                    onPress={onClose}
-                  >
+                  <Button className="w-full" type="submit" color="primary">
                     Simpan
                   </Button>
                 </form>

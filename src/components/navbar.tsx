@@ -1,8 +1,9 @@
 "use client";
 import { Button } from "@nextui-org/react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import WalletIcon from "./icons/wallet";
+import Logo from "../../public/Logo.png";
 export default function NavbarComponent() {
   const route = useRouter();
   const pathname = usePathname();
@@ -14,9 +15,7 @@ export default function NavbarComponent() {
   return (
     <nav className="flex container m-auto w-full justify-between items-center py-4 px-20">
       <Link href={"/"} className="flex gap-2 items-center">
-        <div className="bg-primary p-2 rounded-full">
-          <WalletIcon className="h-6 fill-white" />
-        </div>
+        <Image src={Logo} alt="logo" />
         <h1 className="font-bold text-lg text-primary">SIMS PPOB</h1>
       </Link>
       <div className="flex gap-2">
