@@ -12,4 +12,6 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/", "/akun", "/transaction", "/top-up"] };
+export const config = {
+  matcher: ["/", "/akun", "/transaction", "/topup", "/pembayaran"],
+};
