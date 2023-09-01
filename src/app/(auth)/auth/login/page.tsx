@@ -14,12 +14,15 @@ import Logo from "../../../../../public/Logo.png";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const toggleVisibility = () => setIsVisible(!isVisible);
-
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     if (email == "" && password == "") {
+      setLoading(false);
       return toast.error("Email atau Password Tidak Boleh Kosong");
     }
     const resLogin = await fetch(
@@ -38,11 +41,13 @@ export default function LoginPage() {
       dataLogin.status == 103 &&
       dataLogin.message == "Username atau password salah"
     ) {
+      setLoading(false);
       toast.error("Username atau password salah");
     } else if (
       dataLogin.status == 102 &&
       dataLogin.message == "Paramter email tidak sesuai format"
     ) {
+      setLoading(false);
       toast.error("Paramter email tidak sesuai format");
     } else {
       try {
@@ -51,6 +56,7 @@ export default function LoginPage() {
           password,
           callbackUrl: `${window.location.origin}/`,
         });
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -111,7 +117,12 @@ export default function LoginPage() {
                 label="Password"
                 type={isVisible ? "password" : "text"}
               />
-              <Button type="submit" color="primary" className="w-full">
+              <Button
+                isLoading={loading}
+                type="submit"
+                color="primary"
+                className="w-full"
+              >
                 Masuk
               </Button>
             </form>
