@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 
 export async function GET(req: Request) {
   const res = await fetch(
-    `${process.env.URL_API}/services`,
+    `https://take-home-test-api.nutech-integrasi.app/services`,
 
     {
       method: "GET",

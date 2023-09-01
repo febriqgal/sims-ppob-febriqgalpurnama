@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   const coo = cookies();
   const token = coo.get("token");
   const res = await fetch(
-    `${process.env.URL_API}/transaction/history?offset=0&limit=99`,
+    `https://take-home-test-api.nutech-integrasi.app/transaction/history?offset=0&limit=99`,
     {
       method: "GET",
       headers: {
