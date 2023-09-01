@@ -29,7 +29,7 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const res = await fetch(
-        "https://take-home-test-api.nutech-integrasi.app/registration",
+        "${appConfig.urlApiNutech}/registration",
 
         {
           method: "POST",

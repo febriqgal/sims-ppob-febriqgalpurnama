@@ -13,19 +13,16 @@ export default function TopupSection() {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch(
-        `https://take-home-test-api.nutech-integrasi.app/topup`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            top_up_amount: value,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${session?.user?.token}`,
-          },
-        }
-      );
+      const res = await fetch(`${appConfig.urlApiNutech}/topup`, {
+        method: "POST",
+        body: JSON.stringify({
+          top_up_amount: value,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${session?.user?.token}`,
+        },
+      });
 
       const resTopUp = await res.json();
       if (resTopUp.status == 0) {

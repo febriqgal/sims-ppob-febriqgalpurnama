@@ -11,6 +11,7 @@ import { SyntheticEvent, useState } from "react";
 import { toast } from "react-hot-toast";
 import IllustrationLogin from "../../../../../public/Illustrasi Login.png";
 import Logo from "../../../../../public/Logo.png";
+import { appConfig } from "@/constant/appConfig";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,16 +26,13 @@ export default function LoginPage() {
       setLoading(false);
       return toast.error("Email atau Password Tidak Boleh Kosong");
     }
-    const resLogin = await fetch(
-      `https://take-home-test-api.nutech-integrasi.app/login`,
-      {
-        method: "POST",
-        body: JSON.stringify({ email: email, password: password }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }
-    );
+    const resLogin = await fetch(`${appConfig.urlApiNutech}/login`, {
+      method: "POST",
+      body: JSON.stringify({ email: email, password: password }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
     const dataLogin = await resLogin.json();
 
     if (

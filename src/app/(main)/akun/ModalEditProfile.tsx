@@ -49,17 +49,14 @@ export default function EditProfileModal() {
   const onSubmit: SubmitHandler<EditProfile> = async (data) => {
     try {
       setLoading(true);
-      const res = await fetch(
-        `https://take-home-test-api.nutech-integrasi.app/profile/update`,
-        {
-          method: "PUT",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${session?.user?.token}`,
-          },
-        }
-      );
+      const res = await fetch(`${appConfig.urlApiNutech}/profile/update`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${session?.user?.token}`,
+        },
+      });
 
       const resData = await res.json();
 

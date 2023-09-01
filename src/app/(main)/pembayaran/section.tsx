@@ -18,19 +18,16 @@ export default function ServicesSection() {
     e.preventDefault();
     try {
       setLoading(true);
-      const post = await fetch(
-        `https://take-home-test-api.nutech-integrasi.app/transaction`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            service_code: value,
-          }),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${session.user.token}`,
-          },
-        }
-      );
+      const post = await fetch(`${appConfig.urlApiNutech}/transaction`, {
+        method: "POST",
+        body: JSON.stringify({
+          service_code: value,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${session.user.token}`,
+        },
+      });
 
       const res = await post.json();
 

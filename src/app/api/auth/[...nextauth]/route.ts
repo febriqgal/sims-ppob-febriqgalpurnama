@@ -11,16 +11,13 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        const res = await fetch(
-          `https://take-home-test-api.nutech-integrasi.app/login`,
-          {
-            method: "POST",
-            body: JSON.stringify(credentials),
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
-          }
-        );
+        const res = await fetch(`${appConfig.urlApiNutech}/login`, {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
         const data = await res.json();
         const user = data.data;
 
@@ -28,16 +25,13 @@ const handler = NextAuth({
           expires: Date.now() + 24 * 60 * 60 * 1000,
         });
 
-        const resProfile = await fetch(
-          `https://take-home-test-api.nutech-integrasi.app/profile`,
-          {
-            method: "GET",
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
+        const resProfile = await fetch(`${appConfig.urlApiNutech}/profile`, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
         const dataProfile = await resProfile.json();
         const profile = dataProfile.data;
         profile.token = data.data.token;
