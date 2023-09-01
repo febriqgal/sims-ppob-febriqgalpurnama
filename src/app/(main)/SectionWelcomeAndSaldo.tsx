@@ -6,8 +6,10 @@ import { Profile } from "@/types/profile";
 import { Avatar } from "@nextui-org/avatar";
 import { Skeleton } from "@nextui-org/react";
 import { useState } from "react";
-import InvisibleIcon from "../icons/invisible";
-import VisibleIcon from "../icons/visible";
+import InvisibleIcon from "../../components/Atoms/icons/invisible";
+import VisibleIcon from "../../components/Atoms/icons/visible";
+import PhotoProfile from "../../../public/Profile Photo.png";
+import Image from "next/image";
 export default function WelcomeSaldoSection() {
   const { data: resBalance, isLoading: loadingBalance } =
     useGetBalanceQuery(null);
@@ -20,8 +22,11 @@ export default function WelcomeSaldoSection() {
   return (
     <div className="grid grid-cols-2 w-full text-center ">
       <div className="text-start h-full flex justify-between flex-col">
-        <Avatar
-          src="https://scontent-xsp1-3.xx.fbcdn.net/v/t39.30808-6/369876590_1790509264741935_6177425535217714656_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=a2f6c7&_nc_eui2=AeE38CXCmoIPBnCL4rJ3pHWsdfI0h832Kpd18jSHzfYql0Pl4M-Dzbh5kqzptyxTkmOumI5FESd1JAnEg_pEJw5o&_nc_ohc=-BEFUH6PNP4AX_A0PTY&_nc_ht=scontent-xsp1-3.xx&oh=00_AfA1uEaZzbHA0-MZMqjp3qYirXIEiKARTfD3HdMIR0gBhg&oe=64F4D7C0"
+        <Image
+          src={PhotoProfile}
+          height={50}
+          width={50}
+          alt="#"
           color="primary"
         />
         <div>

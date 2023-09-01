@@ -24,7 +24,7 @@ export default function ServicesSection() {
         <div className="grid grid-cols-12 w-full  gap-4">
           {dataServices?.map((e: Services, i: number) => {
             return (
-              <Link href={`${e.service_code}`} key={e.service_code}>
+              <Link href={`/pembayaran`} key={e.service_code}>
                 <Image
                   width={200}
                   height={200}

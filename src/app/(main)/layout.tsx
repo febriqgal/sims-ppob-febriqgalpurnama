@@ -3,7 +3,7 @@ import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from "../providers";
-import NavbarComponent from "@/components/navbar";
+import NavbarComponent from "@/components/Atoms/navbar";
 import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <NavbarComponent />
-          <main className="container mx-auto   px-20 pt-5">
+          <main className="container mx-auto px-20 pt-5">
             <Toaster position="bottom-left" reverseOrder={false} />
             {children}
           </main>

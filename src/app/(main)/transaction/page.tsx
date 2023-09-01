@@ -1,5 +1,5 @@
-import HistorySection from "@/components/sections/history";
-import WelcomeSaldoSection from "@/components/sections/welcomeAndSaldo";
+import HistorySection from "@/app/(main)/transaction/section";
+import WelcomeSaldoSection from "@/app/(main)/SectionWelcomeAndSaldo";
 import { appConfig } from "@/constant/appConfig";
 import { Metadata } from "next";
 export const metadata: Metadata = {

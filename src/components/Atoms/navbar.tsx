@@ -3,7 +3,7 @@ import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import Logo from "../../public/Logo.png";
+import Logo from "../../../public/Logo.png";
 export default function NavbarComponent() {
   const route = useRouter();
   const pathname = usePathname();

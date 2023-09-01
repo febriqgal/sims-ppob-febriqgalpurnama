@@ -1,7 +1,8 @@
-import TopupSection from "@/components/sections/topup";
-import WelcomeSaldoSection from "@/components/sections/welcomeAndSaldo";
+import WelcomeSaldoSection from "@/app/(main)/SectionWelcomeAndSaldo";
+
 import { appConfig } from "@/constant/appConfig";
 import { Metadata } from "next";
+import TopupSection from "./section";
 
 export const metadata: Metadata = {
   title: `Top Up | ${appConfig.title}`,

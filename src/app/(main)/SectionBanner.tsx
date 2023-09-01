@@ -2,7 +2,7 @@
 import { useGetBannersQuery } from "@/redux/feature/information/banner/bannerSlice";
 import { Banner } from "@/types/banner";
 import { Image } from "@nextui-org/react";
-import BannerSkeleton from "../skeleton/banner";
+import BannerSkeleton from "./SkeletonBanner";
 export default function BannerSection() {
   const { data, isLoading } = useGetBannersQuery(null);
   const dataBanner = data?.data;

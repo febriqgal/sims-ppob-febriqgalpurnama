@@ -9,33 +9,51 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Spinner,
   useDisclosure,
 } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import PhotoProfile from "../../../public/Profile Photo.png";
-import EmailIcon from "../icons/email";
-import PersonIcon from "../icons/person";
+import PhotoProfile from "../../../../public/Profile Photo.png";
+import EmailIcon from "../../../components/Atoms/icons/email";
+
+import EditIcon from "@/components/Atoms/icons/edit";
+import PersonIcon from "../../../components/Atoms/icons/person";
+interface EditProfile {
+  first_name: string;
+  last_name: string;
+}
 export default function EditProfileModal() {
+  const { register, handleSubmit } = useForm<EditProfile>();
+
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({});
+  const files = acceptedFiles.map((file: any) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+
   const { data: session }: any = useSession();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [firstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
+
   const resProfile = useGetProfileQuery(null);
   const dataProfile: Profile = resProfile.data?.data;
-  const handleUpdateProfile = async (e: SyntheticEvent) => {
-    e.preventDefault();
+  const [loading, setLoading] = useState(false);
+
+  const [disable, setdisable] = useState(false);
+
+  const onSubmit: SubmitHandler<EditProfile> = async (data) => {
     try {
+      setLoading(true);
       const res = await fetch(
         `https://take-home-test-api.nutech-integrasi.app/profile/update`,
         {
           method: "PUT",
-          body: JSON.stringify({
-            first_name: `${firstName}`,
-            last_name: `${LastName}`,
-          }),
+          body: JSON.stringify(data),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
             Authorization: `Bearer ${session?.user?.token}`,
@@ -43,24 +61,39 @@ export default function EditProfileModal() {
         }
       );
 
-      const data = await res.json();
-      console.log(data);
-      if (data.status == 0) {
+      const resData = await res.json();
+
+      if (resData.status == 0) {
+        setLoading(false);
         toast.success("Berhasil Update Profile");
+        setdisable(true);
       }
-      if (data.status == 102) {
+      if (resData.status == 102) {
+        setLoading(false);
         toast.error("Field harus diisi");
       }
+      if (resData.status == 108) {
+        setLoading(false);
+        toast.error("Token tidak tidak valid atau kadaluwarsa");
+      }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      toast.error("Terjadi kesalahan tidak terduga, silahkan coba lagi.");
+      setdisable(true);
     }
   };
+
   return (
     <>
       <Button onPress={onOpen} className="w-full" color="primary">
         Edit Profile
       </Button>
-      <Modal backdrop="blur" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isDismissable={false}
+        backdrop="blur"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -69,16 +102,21 @@ export default function EditProfileModal() {
               </ModalHeader>
               <ModalBody className="items-center flex">
                 <form
-                  onSubmit={handleUpdateProfile}
+                  onSubmit={handleSubmit(onSubmit)}
                   className="space-y-4 flex justify-center flex-col items-center w-[300px]"
                 >
-                  <Image
-                    src={PhotoProfile}
-                    alt="#"
-                    width={100}
-                    height={100}
-                    color="primary"
-                  />
+                  <div className="relative" {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <Image
+                      src={PhotoProfile}
+                      alt="#"
+                      width={100}
+                      height={100}
+                      color="primary"
+                    />
+                    <EditIcon className="absolute h-6 bottom-0 right-0 fill-primary" />
+                  </div>
+
                   <h1 className="font-bold">
                     {dataProfile.first_name + " " + dataProfile.last_name}
                   </h1>
@@ -93,10 +131,9 @@ export default function EditProfileModal() {
                     label="Email"
                   />
                   <Input
-                    onChange={(e: any) => {
-                      setFirstName(e.target.value);
-                    }}
                     defaultValue={dataProfile.first_name}
+                    {...register("first_name")}
+                    maxLength={20}
                     labelPlacement="outside"
                     startContent={<PersonIcon className="h-6 fill-primary" />}
                     placeholder="Masukkan Nama Depan"
@@ -105,10 +142,9 @@ export default function EditProfileModal() {
                     label="Nama Depan"
                   />
                   <Input
-                    onChange={(e: any) => {
-                      setLastName(e.target.value);
-                    }}
                     defaultValue={dataProfile.last_name}
+                    {...register("last_name")}
+                    maxLength={20}
                     labelPlacement="outside"
                     startContent={<PersonIcon className="h-6 fill-primary" />}
                     placeholder="Masukkan Nama Belakang"
@@ -116,8 +152,13 @@ export default function EditProfileModal() {
                     variant="faded"
                     label="Nama Belakang"
                   />
-                  <Button className="w-full" type="submit" color="primary">
-                    Simpan
+                  <Button
+                    disabled={disable}
+                    className="w-full"
+                    type="submit"
+                    color="primary"
+                  >
+                    {loading ? <Spinner size="sm" color="white" /> : "Kirim"}
                   </Button>
                 </form>
               </ModalBody>

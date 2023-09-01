@@ -8,7 +8,6 @@ export default function TopupSection() {
   const [value, setValue] = useState(0);
   const [disable, setdisable] = useState(false);
   const { data: session }: any = useSession();
-  console.log(session?.user?.token);
 
   const handleTopUp = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -23,18 +22,28 @@ export default function TopupSection() {
           }),
           headers: {
             "Content-type": "application/json; charset=UTF-8",
-            Authorization: `Bearer ${session.user.token}`,
+            Authorization: `Bearer ${session?.user?.token}`,
           },
         }
       );
-      setLoading(false);
-      setdisable(true);
-      toast.success("Berhasil Top UP");
-      const data = await res.json();
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+
+      const resTopUp = await res.json();
+      if (resTopUp.status == 0) {
+        setLoading(false);
+        toast.success("Berhasil Top UP");
+        setdisable(true);
+      }
+      if (resTopUp.status == 102) {
+        setLoading(false);
+        toast.error(
+          "Parameter top up hanya boleh angka dan tidak boleh lebih kecil dari 0"
+        );
+      }
+      if (resTopUp.status == 108) {
+        setLoading(false);
+        toast.error("Token tidak tidak valid atau kadaluwarsa");
+      }
+    } catch (error) {}
   };
   return (
     <div className="text-start">

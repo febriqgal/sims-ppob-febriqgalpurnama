@@ -1,6 +1,6 @@
-import AkunSection from "@/components/sections/akun";
 import { appConfig } from "@/constant/appConfig";
 import { Metadata } from "next";
+import AkunSection from "./Section";
 
 export const metadata: Metadata = {
   title: `Akun | ${appConfig.title}`,

@@ -1,8 +1,8 @@
 "use client";
-import EmailIcon from "@/components/icons/email";
-import InvisibleIcon from "@/components/icons/invisible";
-import PasswordIcon from "@/components/icons/password";
-import VisibleIcon from "@/components/icons/visible";
+import EmailIcon from "@/components/Atoms/icons/email";
+import InvisibleIcon from "@/components/Atoms/icons/invisible";
+import PasswordIcon from "@/components/Atoms/icons/password";
+import VisibleIcon from "@/components/Atoms/icons/visible";
 import { Button, Input } from "@nextui-org/react";
 import { signIn } from "next-auth/react";
 import Image from "next/image";
@@ -14,18 +14,46 @@ import Logo from "../../../../../public/Logo.png";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
-    if (email == "" && password == "") {
-      return toast.error("Email atau Password Tidak Boleh Kosong");
-    } else {
+    try {
+      if (email == "" && password == "") {
+        return toast.error("Email atau Password Tidak Boleh Kosong");
+      }
+      const resLogin = await fetch(
+        `https://take-home-test-api.nutech-integrasi.app/login`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email: email, password: password }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        }
+      );
+      const dataLogin = await resLogin.json();
+
+      if (
+        dataLogin.status == 103 &&
+        dataLogin.message == "Username atau password salah"
+      ) {
+        toast.error("Username atau password salah");
+      }
+      if (
+        dataLogin.status == 102 &&
+        dataLogin.message == "Paramter email tidak sesuai format"
+      ) {
+        toast.error("Paramter email tidak sesuai format");
+      }
       await signIn("credentials", {
         email,
         password,
         callbackUrl: `${window.location.origin}/`,
       });
+    } catch (error) {
+      console.log(error);
     }
   };
 

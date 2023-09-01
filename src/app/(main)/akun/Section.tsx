@@ -1,17 +1,19 @@
 "use client";
-import EmailIcon from "@/components/icons/email";
-import PersonIcon from "@/components/icons/person";
-import EditProfileModal from "@/components/modal/edit-profile";
-import LogoutModal from "@/components/modal/logout";
+import EmailIcon from "@/components/Atoms/icons/email";
+import PersonIcon from "@/components/Atoms/icons/person";
+import EditProfileModal from "@/app/(main)/akun/ModalEditProfile";
+import LogoutModal from "@/app/(main)/akun/ModalLogout";
 import { useGetProfileQuery } from "@/redux/feature/membership/profile/profileSlice";
 import { Profile } from "@/types/profile";
 import { Input } from "@nextui-org/react";
 import Image from "next/image";
-import PhotoProfile from "../../../public/Profile Photo.png";
-import AkunSkeleton from "../skeleton/akun";
+import PhotoProfile from "../../../../public/Profile Photo.png";
+import AkunSkeleton from "./Skeleton";
+
 export default function AkunSection() {
   const { isLoading, data } = useGetProfileQuery(null);
   const dataProfile: Profile = data?.data;
+
   if (isLoading) {
     return <AkunSkeleton />;
   }

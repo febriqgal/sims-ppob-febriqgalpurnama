@@ -7,7 +7,7 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token }) => token?.email != null,
+      authorized: ({ token, req }) => req.cookies.get("token") != null,
     },
   }
 );

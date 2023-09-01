@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+
 export default function LogoutModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -36,6 +36,8 @@ export default function LogoutModal() {
                   color="primary"
                   onPress={async () => {
                     await signOut();
+                    document.cookie =
+                      "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                   }}
                 >
                   OK

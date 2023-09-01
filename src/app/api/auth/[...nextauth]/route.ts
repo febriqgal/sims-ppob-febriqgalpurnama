@@ -20,7 +20,10 @@ const handler = NextAuth({
         });
         const data = await res.json();
         const user = data.data;
-        cookies().set("token", `${user.token}`);
+
+        cookies().set("token", `${user.token}`, {
+          expires: Date.now() + 24 * 60 * 60 * 1000,
+        });
 
         const resProfile = await fetch(`${process.env.URL_API}/profile`, {
           method: "GET",
@@ -29,8 +32,8 @@ const handler = NextAuth({
             Authorization: `Bearer ${user.token}`,
           },
         });
-        const dataa = await resProfile.json();
-        const profile = dataa.data;
+        const dataProfile = await resProfile.json();
+        const profile = dataProfile.data;
         profile.token = data.data.token;
 
         if (profile) {
@@ -47,7 +50,6 @@ const handler = NextAuth({
         token.email = user.email;
         token.jti = user.token;
         token.token = user.token;
-        token.name = `${user.first_name + " " + user.last_name}`;
       }
 
       return token;
