@@ -88,6 +88,7 @@ export default function LoginPage() {
                 <h1>Membuat Akun</h1>
               </div>
               <Input
+                maxLength={20}
                 labelPlacement="outside"
                 startContent={<PersonIcon className="h-6 fill-primary" />}
                 variant="bordered"
@@ -98,6 +99,7 @@ export default function LoginPage() {
                 {...register("first_name", { required: true })}
               />
               <Input
+                maxLength={20}
                 labelPlacement="outside"
                 startContent={<PersonIcon className="h-6 fill-primary" />}
                 variant="bordered"
@@ -108,6 +110,7 @@ export default function LoginPage() {
                 {...register("last_name", { required: true })}
               />
               <Input
+                maxLength={40}
                 labelPlacement="outside"
                 placeholder="Masukkan email"
                 type="email"
@@ -118,6 +121,7 @@ export default function LoginPage() {
                 {...register("email", { required: true })}
               />
               <Input
+                maxLength={20}
                 endContent={
                   <button
                     className="focus:outline-none"
@@ -142,6 +146,7 @@ export default function LoginPage() {
               />
               <div>
                 <Input
+                  maxLength={20}
                   endContent={
                     <button
                       className="focus:outline-none"

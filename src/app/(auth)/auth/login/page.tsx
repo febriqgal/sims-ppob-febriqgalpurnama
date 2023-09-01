@@ -89,7 +89,7 @@ export default function LoginPage() {
                 onChange={(e: any) => {
                   setPassword(e.target.value);
                 }}
-                maxLength={8}
+                maxLength={20}
                 endContent={
                   <button
                     className="focus:outline-none"
