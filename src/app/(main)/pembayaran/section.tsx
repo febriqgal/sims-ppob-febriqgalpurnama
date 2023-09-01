@@ -1,4 +1,5 @@
 "use client";
+import { appConfig } from "@/constant/appConfig";
 import { useGetServicesQuery } from "@/redux/feature/information/services/servicesSlice";
 import { Services } from "@/types/services";
 import { Button, Select, SelectItem, Spinner } from "@nextui-org/react";

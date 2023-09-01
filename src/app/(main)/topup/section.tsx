@@ -1,4 +1,5 @@
 "use client";
+import { appConfig } from "@/constant/appConfig";
 import { Button, Select, SelectItem, Spinner } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
 import { SyntheticEvent, useState } from "react";

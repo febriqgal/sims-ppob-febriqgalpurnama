@@ -11,6 +11,7 @@ import { Toaster, toast } from "react-hot-toast";
 import IllustrationLogin from "../../../../../public/Illustrasi Login.png";
 import Logo from "../../../../../public/Logo.png";
 import { Registrasi } from "./type";
+import { appConfig } from "@/constant/appConfig";
 
 export default function LoginPage() {
   const [isVisible, setIsVisible] = useState(true);
@@ -29,7 +30,7 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const res = await fetch(
-        "${appConfig.urlApiNutech}/registration",
+        `${appConfig.urlApiNutech}/registration`,
 
         {
           method: "POST",

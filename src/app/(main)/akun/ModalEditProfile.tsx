@@ -23,6 +23,7 @@ import EmailIcon from "../../../components/Atoms/icons/email";
 
 import EditIcon from "@/components/Atoms/icons/edit";
 import PersonIcon from "../../../components/Atoms/icons/person";
+import { appConfig } from "@/constant/appConfig";
 interface EditProfile {
   first_name: string;
   last_name: string;

@@ -1,3 +1,4 @@
+import { appConfig } from "@/constant/appConfig";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { appConfig } from "@/constant/appConfig";
 export async function GET(req: Request) {
   const coo = cookies();
   const token = coo.get("token");
