@@ -3,7 +3,7 @@ import { useGetProfileQuery } from "@/redux/feature/membership/profile/profileSl
 import { useGetBalanceQuery } from "@/redux/feature/transaction/balance/balanceSlice";
 import { Balance } from "@/types/balance";
 import { Profile } from "@/types/profile";
-import { Button, Skeleton } from "@nextui-org/react";
+import { Button, Skeleton, Spinner } from "@nextui-org/react";
 import Image from "next/image";
 import { useState } from "react";
 import PhotoProfile from "../../../public/Profile Photo.png";
@@ -15,12 +15,24 @@ import { signOut } from "next-auth/react";
 export default function WelcomeSaldoSection() {
   const { data: resBalance, isLoading: loadingBalance } =
     useGetBalanceQuery(null);
-  const { data: resProfile, isLoading: loadingProfile } =
-    useGetProfileQuery(null);
+  const {
+    data: resProfile,
+    isLoading: loadingProfile,
+    isError: errorProfile,
+  } = useGetProfileQuery(null);
   const dataProfile: Profile = resProfile?.data;
   const dataBalance: Balance = resBalance?.data;
   const [hide, setHide] = useState(true);
-
+  if (loadingProfile) {
+    return (
+      <div className="flex justify-center items-center">
+        <Spinner color="white" />
+      </div>
+    );
+  }
+  if (errorProfile) {
+    return <h1 className="flex justify-center items-center">Error</h1>;
+  }
   if (dataProfile == undefined) {
     return (
       <div className="flex flex-col gap-4 justify-center">
