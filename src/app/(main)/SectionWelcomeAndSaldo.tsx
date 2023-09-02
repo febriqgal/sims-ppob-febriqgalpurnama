@@ -30,13 +30,11 @@ export default function WelcomeSaldoSection() {
       </div>
     );
   }
+
   if (errorProfile) {
-    return <h1 className="flex justify-center items-center">Error</h1>;
-  }
-  if (dataProfile == undefined) {
     return (
       <div className="flex flex-col gap-4 justify-center">
-        <h1>Token anda Sudah Kadaluarsa,, Silahkan Login ulang. 😉</h1>
+        <h1>Token anda Sudah Kadaluarsa, Silahkan Login ulang. 😉</h1>
 
         <Button
           onPress={async () => {
