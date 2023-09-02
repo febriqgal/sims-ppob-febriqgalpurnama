@@ -45,7 +45,7 @@ export default function NavbarComponent() {
       </div>
       <Dropdown>
         <DropdownTrigger>
-          <button className="border rounded-md p-2">
+          <button className="sm:hidden border rounded-md p-2">
             <MenuIcon className="h-6 fill-primary" />
           </button>
         </DropdownTrigger>
