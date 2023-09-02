@@ -63,8 +63,8 @@ export default function LoginPage() {
 
   return (
     <main>
-      <div className="flex justify-between items-center">
-        <div className="w-1/2 h-screen flex flex-col items-center justify-center">
+      <div className="flex sm:justify-between justify-center items-center">
+        <div className="sm:w-1/2 h-screen flex flex-col items-center justify-center">
           <div className="w-[350px]">
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="text-xl font-bold text-center">
@@ -136,7 +136,7 @@ export default function LoginPage() {
           </div>
         </div>
         <Image
-          className="  w-1/2 h-screen object-cover"
+          className=" hidden sm:flex  w-1/2 h-screen object-cover"
           src={IllustrationLogin}
           alt="#"
         />

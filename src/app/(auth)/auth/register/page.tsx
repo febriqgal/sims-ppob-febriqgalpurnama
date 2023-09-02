@@ -76,7 +76,7 @@ export default function LoginPage() {
   return (
     <main>
       <Toaster position="bottom-left" reverseOrder={false} />
-      <div className="flex justify-between items-center">
+      <div className="flex justify-center  sm:justify-between items-center">
         <div className="w-1/2 py-20 min-h-screen flex flex-col items-center justify-center">
           <div className="w-[350px]">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -193,7 +193,7 @@ export default function LoginPage() {
           </div>
         </div>
         <Image
-          className="fixed top-0 right-0  w-1/2 h-screen object-cover"
+          className="hidden sm:flex fixed top-0 right-0  w-1/2 h-screen object-cover"
           src={IllustrationLogin}
           alt="#"
         />

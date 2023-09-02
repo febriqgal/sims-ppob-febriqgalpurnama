@@ -10,7 +10,7 @@ export default function BannerSection() {
     return <BannerSkeleton />;
   }
   return (
-    <div className="grid grid-cols-5 w-full gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-5 w-full gap-4">
       {dataBanner?.map((e: Banner, i: any) => {
         return (
           <div key={i}>

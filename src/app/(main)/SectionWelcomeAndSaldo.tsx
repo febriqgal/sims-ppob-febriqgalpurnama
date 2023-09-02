@@ -52,7 +52,7 @@ export default function WelcomeSaldoSection() {
   }
 
   return (
-    <div className="grid grid-cols-2 w-full text-center ">
+    <div className="grid grid-cols-1 sm:grid-cols-2 w-full text-center ">
       <div className="text-start h-full flex justify-between flex-col">
         <Image
           src={PhotoProfile}
@@ -74,7 +74,7 @@ export default function WelcomeSaldoSection() {
           )}
         </div>
       </div>
-      <div className="bg-primary text-start flex gap-2 py-5 flex-col justify-start px-10 rounded-xl text-white">
+      <div className="bg-primary mt-4 sm:mt-0 text-start flex gap-2 py-5 flex-col justify-start px-10 rounded-xl text-white">
         <h1>Saldo Anda</h1>
         {loadingBalance ? (
           <Skeleton className="w-[100px]  rounded-lg">

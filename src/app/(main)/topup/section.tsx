@@ -50,7 +50,7 @@ export default function TopupSection() {
       <h1 className="text-2xl font-bold">Nominal Top UP</h1>
       <form
         onSubmit={handleTopUp}
-        className="flex gap-2 mt-4 flex-col w-[300px]"
+        className="flex gap-2 mt-4 flex-col w-full sm:w-[300px]"
       >
         <Select
           onChange={(e: any) => {

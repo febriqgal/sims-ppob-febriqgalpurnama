@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <NavbarComponent />
-          <main className="container mx-auto px-20 pt-5">
+          <main className="container mx-auto px-5 sm:px-20 pt-5">
             <Toaster position="bottom-left" reverseOrder={false} />
             {children}
           </main>

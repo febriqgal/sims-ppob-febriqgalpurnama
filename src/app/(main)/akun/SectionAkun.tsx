@@ -18,7 +18,7 @@ export default function AkunSection() {
     return <AkunSkeleton />;
   }
   return (
-    <div className="space-y-4 flex justify-center flex-col items-center w-[300px]">
+    <div className="space-y-4 w-full flex justify-center flex-col items-center sm:w-[300px]">
       <Image
         alt="#"
         height={100}
