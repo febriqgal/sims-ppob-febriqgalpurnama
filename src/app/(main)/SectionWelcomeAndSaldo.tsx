@@ -3,13 +3,15 @@ import { useGetProfileQuery } from "@/redux/feature/membership/profile/profileSl
 import { useGetBalanceQuery } from "@/redux/feature/transaction/balance/balanceSlice";
 import { Balance } from "@/types/balance";
 import { Profile } from "@/types/profile";
-import { Avatar } from "@nextui-org/avatar";
-import { Skeleton } from "@nextui-org/react";
+import { Button, Skeleton } from "@nextui-org/react";
+import Image from "next/image";
 import { useState } from "react";
+import PhotoProfile from "../../../public/Profile Photo.png";
 import InvisibleIcon from "../../components/Atoms/icons/invisible";
 import VisibleIcon from "../../components/Atoms/icons/visible";
-import PhotoProfile from "../../../public/Profile Photo.png";
-import Image from "next/image";
+
+import { signOut } from "next-auth/react";
+
 export default function WelcomeSaldoSection() {
   const { data: resBalance, isLoading: loadingBalance } =
     useGetBalanceQuery(null);
@@ -18,6 +20,26 @@ export default function WelcomeSaldoSection() {
   const dataProfile: Profile = resProfile?.data;
   const dataBalance: Balance = resBalance?.data;
   const [hide, setHide] = useState(true);
+
+  if (dataProfile == undefined) {
+    return (
+      <div className="flex flex-col gap-4 justify-center">
+        <h1>Token anda Sudah Kadaluarsa,, Silahkan Login ulang. 😉</h1>
+
+        <Button
+          onPress={async () => {
+            await signOut();
+            document.cookie =
+              "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          }}
+          color="primary"
+          variant="shadow"
+        >
+          Login
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 w-full text-center ">
