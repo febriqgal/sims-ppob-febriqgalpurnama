@@ -1,7 +1,7 @@
 "use client";
 import { useGetServicesQuery } from "@/redux/feature/information/services/servicesSlice";
 import { Services } from "@/types/services";
-import { Image, Skeleton, Spinner } from "@nextui-org/react";
+import { Image, Spinner } from "@nextui-org/react";
 import Link from "next/link";
 export default function ServicesSection() {
   const { data: resServices, isLoading: loadingServices } =
